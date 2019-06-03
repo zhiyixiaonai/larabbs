@@ -10,6 +10,14 @@ use App\Handlers\ImageUploadHandler;
 class UsersController extends Controller
 {
     /**
+     * 提供身份验证（Auth）中间件来过滤未登录用户
+     */
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['show']]);
+    }
+
+    /**
      * 显示方法
      *
      * @param User $user 用户对象
@@ -30,6 +38,9 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
+        // 用于快速授权一个指定的行为
+        $this->authorize('update', $user);
+
         return view('users.edit', compact('user'));
     }
 
@@ -42,6 +53,8 @@ class UsersController extends Controller
      */
     public function update(UserRequest $request, ImageUploadHandler $uploader, User $user)
     {
+        // 用于快速授权一个指定的行为
+        $this->authorize('update', $user);
         $data = $request->all();
 
         if ($request->avatar) {
