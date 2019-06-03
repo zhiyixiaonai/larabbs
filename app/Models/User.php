@@ -9,10 +9,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 
 class User extends Authenticatable implements MustVerifyEmailContract
 {
-    use Notifiable, MustVerifyEmailTrait;
+    use Notifiable;
+    use MustVerifyEmailTrait;
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'introduction',
     ];
 
     protected $hidden = [
